@@ -1,0 +1,4 @@
+schwabdev
+python-dotenv
+pytest
+pytest-cov
