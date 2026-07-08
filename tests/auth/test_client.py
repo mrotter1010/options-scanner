@@ -64,10 +64,15 @@ def test_get_client_raises_when_callback_url_not_https():
         get_client()
 
 
-@patch.dict("os.environ", {**VALID_ENV, "SCHWAB_CALLBACK_URL": "https://127.0.0.1/"}, clear=True)
-def test_get_client_raises_when_callback_url_has_trailing_slash():
-    with pytest.raises(EnvironmentError, match="must not end with '/'"):
-        get_client()
+@patch("src.auth.client.check_refresh_token_expiry")
+@patch("src.auth.client.schwabdev.Client")  # mock the real schwabdev.Client constructor
+@patch.dict("os.environ", {**VALID_ENV, "SCHWAB_CALLBACK_URL": "https://127.0.0.1:8182/"}, clear=True)
+def test_get_client_strips_trailing_slash_from_callback_url(mock_client_cls, mock_check):
+    mock_client_cls.return_value = MagicMock(name="schwabdev.Client-instance")
+    get_client()
+    # schwabdev rejects trailing slashes, so our code must strip them
+    call_kwargs = mock_client_cls.call_args.kwargs
+    assert call_kwargs["callback_url"] == "https://127.0.0.1:8182"
 
 
 # ---------------------------------------------------------------------------

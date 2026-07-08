@@ -51,8 +51,6 @@ def get_client() -> schwabdev.Client:
         )
     if not callback_url.startswith("https://"):
         errors.append("SCHWAB_CALLBACK_URL must start with 'https://'")
-    if callback_url.endswith("/"):
-        errors.append("SCHWAB_CALLBACK_URL must not end with '/'")
     if errors:
         raise EnvironmentError(
             "Invalid Schwab credential format:\n  - " + "\n  - ".join(errors)
@@ -60,6 +58,9 @@ def get_client() -> schwabdev.Client:
 
     # --- Ensure data directory exists ---
     TOKENS_FILE.parent.mkdir(parents=True, exist_ok=True)
+
+    # schwabdev rejects callback URLs ending with "/", so strip it
+    callback_url = callback_url.rstrip("/")
 
     client = schwabdev.Client(
         app_key=client_id,
