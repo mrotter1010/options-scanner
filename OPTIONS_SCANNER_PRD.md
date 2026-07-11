@@ -299,6 +299,7 @@ Claude Code is an implementation tool, not a research or decision-making tool. T
 - **No rabbit holes.** If Claude Code encounters an unexpected issue or ambiguity, it stops and asks for clarification — it does not attempt to resolve it autonomously.
 - **No independent research.** Claude Code does not search the web, explore documentation speculatively, or investigate approaches not specified in the prompt.
 - **Pause and surface blockers.** If something in the spec is unclear or a dependency behaves unexpectedly, Claude Code flags it explicitly and waits for direction.
+- **Tests are not self-service fixable.** If a test fails, Claude Code stops and reports the failure with its root cause — it does not edit test files (assertions, expected values, fixtures, mocks, skips, or deletions) to force a failing test to pass. Any change to the logic or expectations of an existing, already-passing test requires explicit approval before being made. This does not restrict writing new tests as part of a milestone's defined scope — it applies specifically to modifying tests that have already been written and were passing.
 
 ### 11.4 Git & Branch Conventions
 
@@ -318,6 +319,7 @@ Claude Code is an implementation tool, not a research or decision-making tool. T
   - **Live integration tests** — real API calls, run deliberately (not in CI by default). Verify the API is reachable and returning the expected response shape. Kept in a separate `/tests/live/` directory. Marked with `@pytest.mark.live` and excluded from default runs via `addopts = "-m 'not live'"` in `pyproject.toml` (added at Milestone 1.2 close; applies to all live tests project-wide, including 1.1's).
 - **Test naming:** `test_<module>_<behavior>` — tests should read as specifications, not as code descriptions.
 - **No invented fixtures.** If a mock requires a specific API response shape, capture a real response first, then build the mock from it.
+- **Test modification requires approval.** See Section 11.3 — a red test is reported, not rewritten. Claude Code does not alter existing test logic or expectations to resolve a failure without explicit sign-off first.
 
 ---
 
