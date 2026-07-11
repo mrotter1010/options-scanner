@@ -2,8 +2,8 @@
 
 **Project:** `options-scanner`
 **Owner:** Mike Rotter
-**Status:** Phase 1 in progress — Milestone 1.1 complete
-**Last Updated:** 2026-07-10
+**Status:** Phase 1 in progress — Milestones 1.1–1.2 complete
+**Last Updated:** 2026-07-11
 
 ---
 
@@ -315,7 +315,7 @@ Claude Code is an implementation tool, not a research or decision-making tool. T
 - **Failing tests must have explanations** — a red test with no comment is not acceptable.
 - **Two test layers:**
   - **Unit/mock tests** — fast, offline, no real API calls. Mocks must be constructed from actual live API responses, not invented fixtures. Document the source response for each mock.
-  - **Live integration tests** — real API calls, run deliberately (not in CI by default). Verify the API is reachable and returning the expected response shape. Kept in a separate `/tests/live/` directory.
+  - **Live integration tests** — real API calls, run deliberately (not in CI by default). Verify the API is reachable and returning the expected response shape. Kept in a separate `/tests/live/` directory. Marked with `@pytest.mark.live` and excluded from default runs via `addopts = "-m 'not live'"` in `pyproject.toml` (added at Milestone 1.2 close; applies to all live tests project-wide, including 1.1's).
 - **Test naming:** `test_<module>_<behavior>` — tests should read as specifications, not as code descriptions.
 - **No invented fixtures.** If a mock requires a specific API response shape, capture a real response first, then build the mock from it.
 
@@ -367,7 +367,7 @@ that now need resolution, known edge cases]
 | Milestone | Status | Completed | Notes |
 |---|---|---|---|
 | 1.1 — Schwab auth module | ✅ Complete | 2026-07-08 | `get_client()` returns authenticated `schwabdev.Client`. Tokens stored at `data/tokens.json`. Refresh token expiry detection at 48h threshold. 98% test coverage (13 tests). Callback URL must be registered without trailing slash in Schwab developer portal. `_refresh_token_issued` is a private attribute — monitor across `schwabdev` version upgrades. |
-| 1.2 — Options chain puller | Not started | — | — |
+| 1.2 — Options chain puller | ✅ Complete | 2026-07-11 | `get_chain`/`get_chains` in `src/market_data/chains.py`. Puts-only, 45 DTE default fetch scope (configurable). `NoOptionsDataError` (per-ticker skip: empty chain or 400) vs `ChainFetchError` (systemic abort: unexpected status, repeated 429, or all-tickers-failed) distinction. 429 handling retries once after 60s backoff. 100% coverage, fixtures captured from real AAPL/VTSAX/ZZZZZ responses. `@pytest.mark.live` marker added retroactively to both 1.1 and 1.2 live tests, closing a gap where live tests were previously collected (though not run) by default `pytest tests/`. |
 | 1.3 — Finnhub earnings calendar | Not started | — | — |
 | 1.4 — IV snapshot recorder | Not started | — | — |
 | 1.5 — Unusual activity detector | Not started | — | — |

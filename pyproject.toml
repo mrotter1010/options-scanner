@@ -4,4 +4,7 @@ version = "0.1.0"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "--cov=src --cov-report=term-missing"
+addopts = "--cov=src --cov-report=term-missing -m 'not live'"
+markers = [
+    "live: marks tests that make real API calls (deselected by default, run with -m live)",
+]

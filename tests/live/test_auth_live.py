@@ -9,9 +9,10 @@ credentials set in the following environment variables:
 
 They must be run deliberately::
 
-    pytest tests/live/ -v
+    pytest -m live -v
 
-They are excluded from normal CI runs.
+They are excluded from normal runs via the ``-m 'not live'`` default in
+pyproject.toml.
 
 On the first run, schwabdev will open a browser for the OAuth authorization
 flow. The callback is captured automatically on port 8182 (matching the
@@ -21,6 +22,7 @@ security warning about a self-signed certificate — proceed past it.
 
 from datetime import datetime, timezone
 
+import pytest
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -30,6 +32,7 @@ import schwabdev
 from src.auth.client import get_client
 
 
+@pytest.mark.live
 def test_live_auth_get_client_returns_valid_session():
     client = get_client()
     assert isinstance(client, schwabdev.Client)
