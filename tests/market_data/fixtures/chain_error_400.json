@@ -1,0 +1,13 @@
+{
+  "errors": [
+    {
+      "id": "4b009a51-cc57-437d-952c-b6eb17b1bc6d",
+      "status": "400",
+      "title": "Bad Request",
+      "detail": "Check Param Values",
+      "source": {
+        "parameter": "Invalid Paramter/Value"
+      }
+    }
+  ]
+}

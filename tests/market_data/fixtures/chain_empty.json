@@ -1,0 +1,20 @@
+{
+  "symbol": "VTSAX",
+  "status": "SUCCESS",
+  "underlying": null,
+  "strategy": "SINGLE",
+  "interval": 0.0,
+  "isDelayed": false,
+  "isIndex": false,
+  "interestRate": 0.0,
+  "underlyingPrice": 0.0,
+  "volatility": 0.0,
+  "daysToExpiration": 0.0,
+  "dividendYield": 0.0,
+  "numberOfContracts": 0,
+  "assetMainType": "MUTUAL_FUND",
+  "assetSubType": "OEF",
+  "isChainTruncated": false,
+  "callExpDateMap": {},
+  "putExpDateMap": {}
+}
